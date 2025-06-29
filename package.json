@@ -31,6 +31,7 @@
     "@hono/node-server": "^1.14.4",
     "@playwright/test": "^1.53.1",
     "@prisma/client": "^6.10.1",
+    "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "autoprefixer": "^10.4.21",
