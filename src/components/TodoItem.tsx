@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { Todo } from '../types/todo';
 
 interface TodoItemProps {
   todo: Todo;
 }
 
-export function TodoItem({ todo }: TodoItemProps) {
+export const TodoItem = memo(function TodoItem({ todo }: TodoItemProps) {
   return (
     <div style={{
       display: 'flex',
@@ -18,12 +19,20 @@ export function TodoItem({ todo }: TodoItemProps) {
         type="checkbox"
         checked={todo.completed}
         readOnly
+        aria-label={`${todo.title}${todo.completed ? 'を完了済みにする' : 'を未完了にする'}`}
         style={{
           width: '20px',
           height: '20px',
           marginRight: '12px',
           cursor: 'pointer',
           accentColor: '#3b82f6',
+          outline: 'none',
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3)';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.boxShadow = 'none';
         }}
       />
       <span style={{
@@ -43,4 +52,4 @@ export function TodoItem({ todo }: TodoItemProps) {
       </span>
     </div>
   );
-}
+});
