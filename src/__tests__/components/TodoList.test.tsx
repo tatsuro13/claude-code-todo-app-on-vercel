@@ -32,7 +32,7 @@ describe('TodoList', () => {
     render(<TodoList todos={[]} />);
     
     expect(screen.getByText('Todoがありません')).toBeInTheDocument();
-    expect(screen.getByText('新しいTodoを追加してください')).toBeInTheDocument();
+    expect(screen.getByText('新しいTodoを追加して、タスクを管理しましょう')).toBeInTheDocument();
   });
 
   it('正しい数のTodoアイテムが表示される', () => {

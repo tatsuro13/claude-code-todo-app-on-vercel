@@ -41,32 +41,19 @@ function App() {
   ];
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#f3f4f6',
-      padding: '24px 16px',
-    }}>
-      <div style={{
-        maxWidth: '800px',
-        margin: '0 auto',
-      }}>
-        <header style={{
-          textAlign: 'center',
-          marginBottom: '32px',
-        }}>
-          <h1 style={{
-            fontSize: '36px',
-            fontWeight: 'bold',
-            color: '#1f2937',
-            marginBottom: '8px',
-          }}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <header className="text-center mb-10 md:mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg mb-4">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">
             Todo App
           </h1>
-          <p style={{
-            fontSize: '16px',
-            color: '#6b7280',
-          }}>
-            タスクを管理しましょう
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+            シンプルで美しいタスク管理アプリ
           </p>
         </header>
         

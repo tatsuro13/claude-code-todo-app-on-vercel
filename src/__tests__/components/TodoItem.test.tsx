@@ -16,7 +16,7 @@ describe('TodoItem', () => {
     render(<TodoItem todo={mockTodo} />);
     
     expect(screen.getByText('テストタスク')).toBeInTheDocument();
-    expect(screen.getByText('2024/1/15')).toBeInTheDocument();
+    expect(screen.getByText('2024年1月15日')).toBeInTheDocument();
   });
 
   it('チェックボックスが正しい状態で表示される', () => {
@@ -36,6 +36,6 @@ describe('TodoItem', () => {
     expect(checkbox).toHaveAttribute('aria-label', 'テストタスクを完了済みにする');
     
     const title = screen.getByText('テストタスク');
-    expect(title).toHaveStyle({ textDecoration: 'line-through' });
+    expect(title).toHaveClass('line-through');
   });
 });
