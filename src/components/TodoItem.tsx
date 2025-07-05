@@ -3,52 +3,63 @@ import { Todo } from '../types/todo';
 
 interface TodoItemProps {
   todo: Todo;
+  onToggle?: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
-export const TodoItem = memo(function TodoItem({ todo }: TodoItemProps) {
+export const TodoItem = memo(function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   return (
-    <div className="group flex items-center gap-4 p-4 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
-      <div className="relative flex items-center">
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          readOnly
-          aria-label={`${todo.title}${todo.completed ? 'を完了済みにする' : 'を未完了にする'}`}
-          className="peer w-5 h-5 rounded-md border-2 border-gray-300 dark:border-gray-600 text-blue-500 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 transition-all cursor-pointer checked:bg-blue-500 checked:border-blue-500"
-        />
-        <svg
-          className="absolute left-0.5 top-0.5 w-4 h-4 text-white pointer-events-none hidden peer-checked:block"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      </div>
+    <div className="group flex items-center gap-2 p-[2px] hover:bg-black/10 rounded transition-all duration-200">
+      <button
+        onClick={() => onToggle?.(todo.id)}
+        className="flex items-center justify-center w-3.5 h-3.5 border border-black rounded-sm bg-white hover:bg-gray-50 transition-colors"
+        aria-label={`${todo.title}${todo.completed ? 'を未完了にする' : 'を完了済みにする'}`}
+      >
+        {todo.completed && (
+          <svg
+            className="w-3 h-3 text-black"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        )}
+      </button>
       
       <div className="flex-1 min-w-0">
-        <p className={`text-base font-medium transition-all duration-200 ${
+        <p className={`text-sm font-normal transition-all duration-200 ${
           todo.completed 
-            ? 'text-gray-400 dark:text-gray-500 line-through' 
-            : 'text-gray-900 dark:text-gray-100'
+            ? 'text-gray-500 line-through' 
+            : 'text-black'
         }`}>
           {todo.title}
         </p>
       </div>
       
-      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <time className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-          {new Date(todo.createdAt).toLocaleDateString('ja-JP', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          })}
-        </time>
-      </div>
+      <button
+        onClick={() => onDelete?.(todo.id)}
+        className="opacity-0 group-hover:opacity-100 w-5 h-5 flex items-center justify-center transition-opacity duration-200"
+        aria-label={`${todo.title}を削除`}
+      >
+        <svg
+          className="w-4 h-4 text-black"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     </div>
   );
 });

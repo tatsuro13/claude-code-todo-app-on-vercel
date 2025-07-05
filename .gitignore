@@ -30,3 +30,6 @@ dist-ssr
 
 # Prisma
 prisma/migrations/
+
+/reviews/*
+!reviews/.gitkeep
