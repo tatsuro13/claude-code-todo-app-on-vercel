@@ -24,6 +24,16 @@ export const prisma = global.prisma || new PrismaClient({
   log: isProduction ? ['error'] : ['query', 'error', 'warn'],
 });
 
+// Test database connection
+prisma.$connect()
+  .then(() => {
+    console.log('Database connected successfully');
+    console.log('Database URL:', databaseUrl?.replace(/:[^:@]+@/, ':***@')); // Hide password
+  })
+  .catch((error) => {
+    console.error('Failed to connect to database:', error);
+  });
+
 // 開発環境でのホットリロード対策
 if (!isProduction) {
   global.prisma = prisma;

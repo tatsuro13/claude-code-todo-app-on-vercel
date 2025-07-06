@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import { cors } from 'hono/cors';
-import { prisma } from './db.js';
+import { prisma } from './db';
 import { z } from 'zod';
 
 const app = new Hono();
@@ -122,3 +122,13 @@ serve({
 });
 
 console.log(`Development API server running on http://localhost:${PORT}`);
+
+// Test database connection
+prisma.todo.count()
+  .then(count => {
+    console.log('Database connected successfully');
+    console.log(`Current todos count: ${count}`);
+  })
+  .catch(error => {
+    console.error('Database connection failed:', error);
+  });
