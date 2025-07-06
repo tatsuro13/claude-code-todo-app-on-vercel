@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     switch (req.method) {
-      case 'PATCH':
+      case 'PATCH': {
         // Update a todo
         const validatedData = updateTodoSchema.parse(req.body);
         const updatedTodo = await prisma.todo.update({
@@ -35,13 +35,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           data: validatedData,
         });
         return res.status(200).json(updatedTodo);
+      }
 
-      case 'DELETE':
+      case 'DELETE': {
         // Delete a todo
         await prisma.todo.delete({
           where: { id },
         });
         return res.status(200).json({ success: true });
+      }
 
       default:
         return res.status(405).json({ error: 'Method not allowed' });

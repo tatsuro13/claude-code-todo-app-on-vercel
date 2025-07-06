@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Testing
+e2e/
+src/__tests__/
+coverage/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Development
+scripts/
+.env
+.env.local
+*.log
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Documentation
+*.md
+LICENSE
+
+# Editor
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+
+# Database
+prisma/schema.local.prisma
+*.db
+*.db-journal
+
+# Temporary files
+.DS_Store
+*.tmp
+*.temp
