@@ -1,9 +1,9 @@
 {
   "functions": {
-    "api/todos.js": {
+    "api/todos.ts": {
       "maxDuration": 10
     },
-    "api/todos/[id].js": {
+    "api/todos/[id].ts": {
       "maxDuration": 10
     }
   },

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../../src/server/db.js';
+import { prisma } from '../../src/server/db';
 import { z } from 'zod';
 
 // Request validation schema
