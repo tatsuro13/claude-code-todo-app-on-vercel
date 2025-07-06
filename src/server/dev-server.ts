@@ -9,6 +9,11 @@ const app = new Hono();
 // Enable CORS
 app.use('/*', cors());
 
+// Health check endpoint
+app.get('/api/health', (c) => {
+  return c.json({ status: 'ok' });
+});
+
 // Request validation schemas
 const createTodoSchema = z.object({
   title: z.string().min(1).max(255),
@@ -95,6 +100,19 @@ app.delete('/api/todos', async (c) => {
     return c.json({ error: 'Failed to delete todos' }, 500);
   }
 });
+
+// Test endpoint to reset database
+if (process.env.NODE_ENV !== 'production') {
+  app.post('/api/test/reset', async (c) => {
+    try {
+      await prisma.todo.deleteMany();
+      return c.json({ success: true });
+    } catch (error) {
+      console.error('Error resetting database:', error);
+      return c.json({ error: 'Failed to reset database' }, 500);
+    }
+  });
+}
 
 const PORT = process.env.PORT || 3000;
 
