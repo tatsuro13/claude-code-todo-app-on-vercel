@@ -6,11 +6,15 @@ declare global {
 }
 
 // Vercel環境では環境変数が自動的に設定される
-const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_PRISMA_URL;
+// ローカルではDATABASE_URL、本番ではPOSTGRES_PRISMA_URLを使用
+const databaseUrl = process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   throw new Error('Database URL is not configured. Please set DATABASE_URL or POSTGRES_PRISMA_URL environment variable.');
 }
+
+// 本番環境かどうかを判定
+const isProduction = process.env.NODE_ENV === 'production' || !!process.env.POSTGRES_PRISMA_URL;
 
 export const prisma = global.prisma || new PrismaClient({
   datasources: {
@@ -18,10 +22,10 @@ export const prisma = global.prisma || new PrismaClient({
       url: databaseUrl,
     },
   },
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  log: isProduction ? ['error'] : ['query', 'error', 'warn'],
 });
 
 // 開発環境でのホットリロード対策
-if (process.env.NODE_ENV !== 'production') {
+if (!isProduction) {
   global.prisma = prisma;
 }

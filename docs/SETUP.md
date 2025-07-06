@@ -5,7 +5,6 @@
 ### 前提条件
 - Node.js 18以上
 - npm または yarn
-- PostgreSQL（ローカル開発用）
 
 ### 初期セットアップ
 
@@ -17,9 +16,11 @@
 2. **環境変数の設定**
    `.env`ファイルを作成し、以下の内容を設定します：
    ```env
-   # ローカル開発用データベース
-   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo_app_dev?schema=public"
+   # ローカル開発用データベース（SQLite）
+   DATABASE_URL="file:./dev.db"
    ```
+   
+   注: ローカル開発ではSQLiteを使用するため、PostgreSQLのインストールは不要です。
 
 3. **データベースのセットアップ**
    ```bash
@@ -66,7 +67,7 @@
 ## 環境変数の詳細
 
 ### ローカル開発環境
-- `DATABASE_URL`: PostgreSQL接続文字列
+- `DATABASE_URL`: SQLiteデータベースファイルのパス（例: `file:./dev.db`）
 
 ### 本番環境（Vercel）
 以下の環境変数はVercel Postgresによって自動的に設定されます：
@@ -81,9 +82,9 @@
 ## トラブルシューティング
 
 ### データベース接続エラー
-- PostgreSQLが起動していることを確認
 - `.env`ファイルの`DATABASE_URL`が正しいことを確認
-- データベースが存在することを確認
+- ローカル開発ではSQLiteを使用（`file:./dev.db`）
+- 初回実行時は`npm run db:migrate`でデータベースを作成
 
 ### Vercelデプロイエラー
 - Vercel Postgresが正しく設定されていることを確認
