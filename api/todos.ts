@@ -21,14 +21,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     switch (req.method) {
-      case 'GET':
+      case 'GET': {
         // Get all todos
         const todos = await prisma.todo.findMany({
           orderBy: { createdAt: 'desc' },
         });
         return res.status(200).json(todos);
+      }
 
-      case 'POST':
+      case 'POST': {
         // Create a new todo
         const validatedData = createTodoSchema.parse(req.body);
         const newTodo = await prisma.todo.create({
@@ -37,11 +38,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
         });
         return res.status(201).json(newTodo);
+      }
 
-      case 'DELETE':
+      case 'DELETE': {
         // Delete all todos
         await prisma.todo.deleteMany();
         return res.status(200).json({ success: true });
+      }
 
       default:
         return res.status(405).json({ error: 'Method not allowed' });

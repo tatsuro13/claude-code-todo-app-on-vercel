@@ -75,16 +75,30 @@ http://localhost:5173 でアプリケーションにアクセスできます。
 ## 📝 利用可能なスクリプト
 
 ```bash
+# 開発
 npm run dev          # 開発サーバーの起動
+npm run dev:api      # APIサーバーのみ起動
+npm run dev:all      # フロントエンドとAPIを並列起動
 npm run build        # プロダクションビルド
 npm run preview      # ビルドのプレビュー
+
+# コード品質
 npm run typecheck    # TypeScriptの型チェック
 npm run lint         # ESLintの実行
 npm run test         # Vitestでユニットテスト
 npm run test:e2e     # Playwrightでe2eテスト
-npm run db:generate  # Prismaクライアントの生成
-npm run db:migrate   # データベースマイグレーション
+
+# データベース
+npm run db:generate  # Prismaクライアントの生成（ローカル）
+npm run db:migrate   # データベースマイグレーション（ローカル）
+npm run db:push      # スキーマの同期（ローカル）
 npm run db:studio    # Prisma Studioの起動
+npm run db:generate:prod  # Prismaクライアントの生成（本番）
+npm run db:migrate:prod   # マイグレーション適用（本番）
+
+# デプロイ
+npm run deploy       # 本番環境へデプロイ（テスト実行後）
+npm run deploy:preview  # プレビューデプロイ
 ```
 
 ## 🏗️ プロジェクト構造
@@ -105,15 +119,44 @@ prisma/
 
 ### Vercelへのデプロイ
 
+#### 初回セットアップ
+
 1. [Vercel](https://vercel.com)でプロジェクトをインポート
 2. Vercel Postgresデータベースを追加
 3. 環境変数が自動的に設定される
-4. デプロイを実行
+
+#### デプロイ方法
 
 ```bash
-# Vercel CLIを使用する場合
-vercel
+# 本番環境へのデプロイ（テスト、Lint、型チェックを含む）
+npm run deploy
+
+# プレビューデプロイ（ブランチのテスト用）
+npm run deploy:preview
 ```
+
+#### デプロイプロセス
+
+`npm run deploy`を実行すると、以下の処理が自動的に実行されます：
+
+1. **テストの実行** - すべてのユニットテストを実行
+2. **Lintチェック** - コード品質をチェック
+3. **型チェック** - TypeScriptの型エラーをチェック
+4. **本番デプロイ** - Vercelへのデプロイを実行
+5. **データベースマイグレーション** - 自動的に本番DBにマイグレーションを適用
+
+#### カスタムビルド設定
+
+Vercelでは`vercel-build`スクリプトが自動的に実行されます：
+- Prismaクライアントの生成
+- データベースマイグレーションの適用
+- アプリケーションのビルド
+
+#### 環境変数
+
+Vercel Postgresを使用する場合、以下の環境変数が自動設定されます：
+- `POSTGRES_PRISMA_URL` - Prisma接続用（接続プール有効）
+- `POSTGRES_URL_NON_POOLING` - マイグレーション用（接続プール無効）
 
 ## 🧪 テスト
 
