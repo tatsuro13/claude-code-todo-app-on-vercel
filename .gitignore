@@ -33,5 +33,10 @@ prisma/migrations/
 *.db
 *.db-journal
 
+# reviews directory
 /reviews/*
 !reviews/.gitkeep
+
+# Playwright
+/playwright-report/
+/test-results/
