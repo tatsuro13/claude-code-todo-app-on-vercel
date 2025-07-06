@@ -1,99 +1,39 @@
-import { useState } from 'react';
-import { Todo } from './types/todo';
 import { TodoList } from './components/TodoList';
+import { useTodos } from './hooks/useTodos';
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([
-    {
-      id: '1',
-      title: 'Stay positive',
-      completed: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '2',
-      title: 'Deep clean floors.',
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '3',
-      title: 'Wash windows.',
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '4',
-      title: 'Sanitize high-touch areas.',
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '5',
-      title: 'Organize closets.',
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '6',
-      title: 'Stay positive',
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: '7',
-      title: 'Dust surfaces.',
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
-
-  const handleToggleTodo = (id: string) => {
-    setTodos(todos.map(todo => 
-      todo.id === id 
-        ? { ...todo, completed: !todo.completed, updatedAt: new Date() }
-        : todo
-    ));
-  };
-
-  const handleDeleteTodo = (id: string) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  const handleDeleteAllTodos = () => {
-    if (window.confirm('すべてのタスクを削除しますか？')) {
-      setTodos([]);
-    }
-  };
-
-  const handleAddTodo = (title: string) => {
-    const newTodo: Todo = {
-      id: Date.now().toString(),
-      title,
-      completed: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    setTodos([...todos, newTodo]);
-  };
+  const {
+    todos,
+    isLoading,
+    error,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    deleteAllTodos,
+  } = useTodos();
 
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8 md:py-12">
-        <TodoList 
-          todos={todos}
-          onToggle={handleToggleTodo}
-          onDelete={handleDeleteTodo}
-          onDeleteAll={handleDeleteAllTodos}
-          onAdd={handleAddTodo}
-        />
+        {error && (
+          <div className="max-w-md mx-auto mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            エラー: {error}
+          </div>
+        )}
+        {isLoading ? (
+          <div className="max-w-md mx-auto text-center">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <p className="mt-2 text-gray-600">読み込み中...</p>
+          </div>
+        ) : (
+          <TodoList 
+            todos={todos}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+            onDeleteAll={deleteAllTodos}
+            onAdd={addTodo}
+          />
+        )}
       </div>
     </div>
   );
