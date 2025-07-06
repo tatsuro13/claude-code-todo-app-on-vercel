@@ -2,8 +2,22 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
-// Prismaクライアントを直接初期化
-const prisma = new PrismaClient();
+// データベースURLを確認
+const databaseUrl = process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  console.error('No database URL found in environment variables');
+}
+
+// Prismaクライアントを初期化
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: databaseUrl,
+    },
+  },
+  log: ['error', 'warn'],
+});
 
 // Request validation schemas
 const createTodoSchema = z.object({
@@ -20,6 +34,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
+  }
+
+  // デバッグ情報
+  if (!databaseUrl) {
+    return res.status(500).json({ 
+      error: 'Database configuration error',
+      message: 'No database URL configured'
+    });
   }
 
   try {
@@ -57,7 +79,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Invalid request data', details: error.errors });
     }
     console.error('API Error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    
+    // より詳細なエラー情報を返す
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      message: process.env.NODE_ENV === 'production' ? 'Database operation failed' : errorMessage
+    });
   } finally {
     await prisma.$disconnect();
   }
