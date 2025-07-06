@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../src/server/db';
+import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+
+// Prismaクライアントを直接初期化
+const prisma = new PrismaClient();
 
 // Request validation schemas
 const createTodoSchema = z.object({
@@ -55,5 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     console.error('API Error:', error);
     return res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    await prisma.$disconnect();
   }
 }
