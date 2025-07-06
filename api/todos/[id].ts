@@ -2,16 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
-// データベースURLを確認
-const databaseUrl = process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL;
-
 // Prismaクライアントを初期化
 const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: databaseUrl,
-    },
-  },
   log: ['error', 'warn'],
 });
 

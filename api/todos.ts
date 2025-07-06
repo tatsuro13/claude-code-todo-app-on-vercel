@@ -2,20 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
-// データベースURLを確認
-const databaseUrl = process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL;
-
-if (!databaseUrl) {
-  console.error('No database URL found in environment variables');
-}
-
 // Prismaクライアントを初期化
 const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: databaseUrl,
-    },
-  },
   log: ['error', 'warn'],
 });
 
@@ -36,13 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  // デバッグ情報
-  if (!databaseUrl) {
-    return res.status(500).json({ 
-      error: 'Database configuration error',
-      message: 'No database URL configured'
-    });
-  }
 
   try {
     switch (req.method) {

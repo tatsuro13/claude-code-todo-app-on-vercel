@@ -20,7 +20,7 @@
     "db:studio": "prisma studio --schema=./prisma/schema.local.prisma",
     "db:generate:prod": "prisma generate",
     "db:migrate:prod": "prisma migrate deploy",
-    "vercel-build": "prisma generate && prisma migrate deploy && npm run build",
+    "vercel-build": "prisma generate && prisma db push && npm run build",
     "postinstall": "prisma generate",
     "predeploy": "npm run test && npm run lint && npm run typecheck",
     "deploy": "npm run predeploy && vercel --prod",
