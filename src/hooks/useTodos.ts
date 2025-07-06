@@ -48,17 +48,6 @@ export function useTodos(): UseTodosReturn {
   const addTodo = useCallback(async (title: string) => {
     try {
       setError(null);
-      // Optimistic update
-      const tempId = `temp-${Date.now()}`;
-      const tempTodo: Todo = {
-        id: tempId,
-        title,
-        completed: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      setTodos(prev => [tempTodo, ...prev]);
-
       const response = await fetch(API_BASE_URL, {
         method: 'POST',
         headers: {
@@ -78,15 +67,14 @@ export function useTodos(): UseTodosReturn {
         createdAt: new Date(newTodo.createdAt),
         updatedAt: new Date(newTodo.updatedAt),
       };
-      // Replace temporary todo with the real one
-      setTodos(prev => prev.map(todo => todo.id === tempId ? todoWithDates : todo));
+      // Add the new todo
+      setTodos(prev => [todoWithDates, ...prev]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add todo');
-      // Revert optimistic update
-      await fetchTodos();
-      throw err;
+      // エラーメッセージを一定時間表示するためにタイムアウトを設定
+      setTimeout(() => setError(null), 5000);
     }
-  }, [fetchTodos]);
+  }, []);
 
   // Toggle todo completion status
   const toggleTodo = useCallback(async (id: string) => {
@@ -126,7 +114,8 @@ export function useTodos(): UseTodosReturn {
       setError(err instanceof Error ? err.message : 'Failed to update todo');
       // Revert optimistic update
       await fetchTodos();
-      throw err;
+      // エラーメッセージを一定時間表示するためにタイムアウトを設定
+      setTimeout(() => setError(null), 5000);
     }
   }, [todos, fetchTodos]);
 
@@ -148,7 +137,8 @@ export function useTodos(): UseTodosReturn {
       setError(err instanceof Error ? err.message : 'Failed to delete todo');
       // Revert optimistic update
       await fetchTodos();
-      throw err;
+      // エラーメッセージを一定時間表示するためにタイムアウトを設定
+      setTimeout(() => setError(null), 5000);
     }
   }, [fetchTodos]);
 
@@ -174,7 +164,8 @@ export function useTodos(): UseTodosReturn {
       setError(err instanceof Error ? err.message : 'Failed to delete todos');
       // Revert optimistic update
       await fetchTodos();
-      throw err;
+      // エラーメッセージを一定時間表示するためにタイムアウトを設定
+      setTimeout(() => setError(null), 5000);
     }
   }, [todos, fetchTodos]);
 
