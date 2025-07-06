@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Todo } from '../types/todo';
 import { TodoItem } from './TodoItem';
+import { TodoTabs, FilterType } from './TodoTabs';
 
 interface TodoListProps {
   todos: Todo[];
@@ -13,6 +14,7 @@ interface TodoListProps {
 export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: TodoListProps) {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [activeFilter, setActiveFilter] = useState<FilterType>('active');
 
   const handleAddTask = () => {
     if (newTaskTitle.trim() && onAdd) {
@@ -30,6 +32,11 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
       setIsAddingTask(false);
     }
   };
+
+  // Filter todos based on active filter
+  const activeTodos = todos.filter(todo => !todo.completed);
+  const completedTodos = todos.filter(todo => todo.completed);
+  const filteredTodos = activeFilter === 'active' ? activeTodos : completedTodos;
 
   return (
     <div className="max-w-md mx-auto">
@@ -64,9 +71,17 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
           </button>
         </div>
 
+        {/* Tabs */}
+        <TodoTabs
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+          activeCount={activeTodos.length}
+          completedCount={completedTodos.length}
+        />
+
         {/* Todo Items */}
         <div className="flex flex-col gap-1.5">
-          {todos.map((todo) => (
+          {filteredTodos.map((todo) => (
             <TodoItem 
               key={todo.id} 
               todo={todo} 
@@ -76,9 +91,10 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
           ))}
         </div>
 
-        {/* Add Task */}
-        <div className="mt-4">
-          {isAddingTask ? (
+        {/* Add Task - Only show in active tab */}
+        {activeFilter === 'active' && (
+          <div className="mt-4">
+            {isAddingTask ? (
             <div className="flex items-center gap-2 p-[2px]">
               <div className="w-3.5 h-3.5 border border-black rounded-sm bg-white"></div>
               <input
@@ -105,7 +121,8 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
               <span>Add a task</span>
             </button>
           )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
