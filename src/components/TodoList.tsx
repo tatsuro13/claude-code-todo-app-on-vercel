@@ -96,7 +96,7 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
           <div className="mt-4">
             {isAddingTask ? (
             <div className="flex items-center gap-2 p-[2px]">
-              <div className="w-3.5 h-3.5 border border-black rounded-sm bg-white"></div>
+              <div className="w-3.5 h-3.5 border border-red-500 rounded-sm bg-white"></div>
               <input
                 type="text"
                 value={newTaskTitle}
@@ -115,9 +115,9 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
           ) : (
             <button
               onClick={() => setIsAddingTask(true)}
-              className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition-colors"
+              className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700 transition-colors bg-red-50 hover:bg-red-100 px-3 py-2 rounded-md"
             >
-              <span className="text-lg leading-none">+</span>
+              <span className="text-lg leading-none text-red-600">+</span>
               <span>Add a task</span>
             </button>
           )}
