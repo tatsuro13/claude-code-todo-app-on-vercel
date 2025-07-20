@@ -40,3 +40,6 @@ prisma/migrations/
 # Playwright
 /playwright-report/
 /test-results/
+
+# Claude PR Screenshot config
+.claude-pr-config.json
