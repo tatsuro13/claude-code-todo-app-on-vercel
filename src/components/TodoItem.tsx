@@ -12,12 +12,12 @@ export const TodoItem = memo(function TodoItem({ todo, onToggle, onDelete }: Tod
     <div className="group flex items-center gap-2 p-[2px] hover:bg-black/10 rounded transition-all duration-200">
       <button
         onClick={() => onToggle?.(todo.id)}
-        className="flex items-center justify-center w-3.5 h-3.5 border border-black rounded-sm bg-white hover:bg-gray-50 transition-colors"
+        className="flex items-center justify-center w-3.5 h-3.5 border border-blue-500 rounded-sm bg-white hover:bg-blue-50 transition-colors"
         aria-label={`${todo.title}${todo.completed ? 'を未完了にする' : 'を完了済みにする'}`}
       >
         {todo.completed && (
           <svg
-            className="w-3 h-3 text-black"
+            className="w-3 h-3 text-blue-500"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -47,7 +47,7 @@ export const TodoItem = memo(function TodoItem({ todo, onToggle, onDelete }: Tod
         aria-label={`${todo.title}を削除`}
       >
         <svg
-          className="w-4 h-4 text-black"
+          className="w-4 h-4 text-red-500 hover:text-red-600"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
