@@ -62,7 +62,7 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
             className="w-5 h-5 flex items-center justify-center"
             aria-label="すべてのタスクを削除"
           >
-            <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <polyline points="3 6 5 6 21 6"></polyline>
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
               <line x1="10" y1="11" x2="10" y2="17"></line>
@@ -115,7 +115,7 @@ export function TodoList({ todos, onToggle, onDelete, onDeleteAll, onAdd }: Todo
           ) : (
             <button
               onClick={() => setIsAddingTask(true)}
-              className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition-colors"
+              className="flex items-center gap-2 text-sm text-gray-600 hover:text-blue-600 transition-colors"
             >
               <span className="text-lg leading-none">+</span>
               <span>Add a task</span>
